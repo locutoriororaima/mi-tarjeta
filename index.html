@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Multiservicios Roraima</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#1a56db;--blue-light:#e8efff;--dark:#0f172a;--mid:#334155;--soft:#64748b;--line:#e2e8f0;--bg:#f8fafc;--white:#ffffff;--accent:#0ea5e9}
+html,body{min-height:100vh;background:var(--bg);font-family:'Epilogue',sans-serif;color:var(--dark)}
+body{display:flex;flex-direction:column;align-items:center;padding:0 0 60px}
+.hb{width:100%;background:linear-gradient(135deg,#0f172a 0%,#1e3a6e 60%,#1a56db 100%);padding:48px 24px 80px;position:relative;overflow:hidden}
+.hb::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.04)}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:24px 24px}
+.hc{position:relative;z-index:2;max-width:480px;margin:0 auto;text-align:center}
+.av-wrap{position:relative;display:inline-block;margin-bottom:18px;animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both}
+.avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3);display:block}
+.av-init{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#1a56db,#0ea5e9);border:3px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:white}
+.av-badge{position:absolute;bottom:2px;right:2px;width:22px;height:22px;background:#22c55e;border:2px solid white;border-radius:50%}
+.name{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;color:white;line-height:1.1;margin-bottom:6px;animation:fadeUp .5s ease .1s both}
+.cargo{font-size:13px;color:rgba(255,255,255,.65);font-weight:400;letter-spacing:.05em;text-transform:uppercase;animation:fadeUp .5s ease .2s both}
+.cf{background:var(--white);border-radius:24px;box-shadow:0 20px 60px rgba(15,23,42,.12),0 4px 16px rgba(15,23,42,.06);width:calc(100% - 40px);max-width:440px;margin:-44px auto 0;position:relative;z-index:10;overflow:hidden;animation:slideUp .6s ease .2s both}
+.ns{background:var(--blue-light);padding:18px 24px;border-bottom:1px solid var(--line)}
+.nt{font-size:13.5px;color:var(--blue);line-height:1.6;text-align:center}
+.cl{padding:8px 0}
+.ci{display:flex;align-items:center;gap:14px;padding:14px 24px;text-decoration:none;color:var(--dark);border-bottom:1px solid var(--line);transition:background .15s}
+.ci:last-child{border-bottom:none}
+.ci:hover{background:var(--bg)}
+.ii{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ip{background:#dcfce7}.im{background:#dcfce7}.ie{background:#fef9c3}.iw{background:#e0f2fe}.id{background:#fce7f3}
+.inf{flex:1;min-width:0}
+.il{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:2px}
+.iv{font-size:14px;font-weight:500;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia{color:var(--line);font-size:16px;flex-shrink:0}
+.sb{display:block;width:calc(100% - 40px);max-width:440px;margin:16px auto 0;padding:16px;background:linear-gradient(135deg,#1a56db,#0ea5e9);border:none;border-radius:14px;color:white;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;transition:opacity .2s,transform .15s;box-shadow:0 4px 20px rgba(26,86,219,.3);animation:fadeUp .5s ease .4s both}
+.sb:hover{opacity:.92;transform:translateY(-1px)}
+.ss{width:calc(100% - 40px);max-width:440px;margin:16px auto 0}
+.st{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--soft);margin-bottom:10px;padding-left:4px}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px}
+.soc{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;background:white;border-radius:14px;border:1px solid var(--line);text-decoration:none;color:var(--mid);font-size:11px;font-weight:500;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.soc:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 16px rgba(26,86,219,.12)}
+.soc span{font-size:22px}
+.footer{margin-top:28px;text-align:center;font-size:11px;color:var(--soft);opacity:.7}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="hb"><div class="dots"></div>
+<div class="hc">
+<div class="av-wrap" id="avWrap"><div class="av-init" id="avInit">??</div><div class="av-badge"></div></div>
+<div class="name" id="dNombre"></div>
+<div class="cargo" id="dCargo"></div>
+</div></div>
+<div class="cf"><div class="ns" id="nSec" style="display:none"><p class="nt" id="dNota"></p></div><div class="cl" id="cList"></div></div>
+<a class="sb" id="sBtn" href="#" style="display:none">＋ Guardar Contacto</a>
+<div class="ss" id="sSec" style="display:none"><div class="st">Redes Sociales</div><div class="sg" id="sGrid"></div></div>
+<div class="footer">Tarjeta Digital Empresarial</div>
+<script>
+const D={"nombre":"Multiservicios Roraima","cargo":"","foto":"","telefono":"","whatsapp":"+34 643901309","email":"locutorio.roraima@gmail.com","website":"https://locutoriororaima.wixsite.com/roraima","direccion":"Zubiaga Kalea, 4, 48100 Mungia, Bizkaia","instagram":"","facebook":"","linkedin":"","twitter":"","nota":"Tu tienda de alimentos de confianza..."};
+function ini(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()||'??'}
+function build(){
+document.title=D.nombre||'Tarjeta Digital';
+document.getElementById('dNombre').textContent=D.nombre;
+document.getElementById('dCargo').textContent=D.cargo;
+document.getElementById('avInit').textContent=ini(D.nombre);
+if(D.foto){const i=document.createElement('img');i.src=D.foto;i.className='avatar';i.alt=D.nombre;document.getElementById('avInit').replaceWith(i);}
+if(D.nota){document.getElementById('nSec').style.display='block';document.getElementById('dNota').textContent=D.nota;}
+const cs=[];
+if(D.telefono)cs.push({icon:'📞',cls:'ip',label:'Teléfono',value:D.telefono,href:'tel:'+D.telefono});
+if(D.whatsapp)cs.push({icon:'💬',cls:'im',label:'WhatsApp',value:D.whatsapp,href:'https://wa.me/'+D.whatsapp.replace(/\D/g,'')});
+if(D.email)cs.push({icon:'✉️',cls:'ie',label:'Email',value:D.email,href:'mailto:'+D.email});
+if(D.website)cs.push({icon:'🌐',cls:'iw',label:'Sitio Web',value:D.website.replace('https://',''),href:D.website});
+if(D.direccion)cs.push({icon:'📍',cls:'id',label:'Dirección',value:D.direccion,href:'https://maps.google.com?q='+encodeURIComponent(D.direccion)});
+const cl=document.getElementById('cList');
+cs.forEach((c,i)=>{const a=document.createElement('a');a.href=c.href;a.target='_blank';a.className='ci';a.style.animationDelay=(0.1+i*0.07)+'s';a.innerHTML='<div class="ii '+c.cls+'">'+c.icon+'</div><div class="inf"><div class="il">'+c.label+'</div><div class="iv">'+c.value+'</div></div><div class="ia">›</div>';cl.appendChild(a);});
+if(D.nombre){const vc=buildVC();const b=new Blob([vc],{type:'text/vcard'});const u=URL.createObjectURL(b);const btn=document.getElementById('sBtn');btn.href=u;btn.download=D.nombre.replace(/\s+/g,'-')+'.vcf';btn.style.display='block';}
+const so=[];
+if(D.instagram)so.push({icon:'📸',label:'Instagram',href:'https://instagram.com/'+D.instagram.replace('@','')});
+if(D.facebook)so.push({icon:'👤',label:'Facebook',href:D.facebook.startsWith('http')?D.facebook:'https://'+D.facebook});
+if(D.linkedin)so.push({icon:'💼',label:'LinkedIn',href:D.linkedin.startsWith('http')?D.linkedin:'https://'+D.linkedin});
+if(D.twitter)so.push({icon:'🐦',label:'Twitter/X',href:'https://x.com/'+D.twitter.replace('@','')});
+if(so.length){document.getElementById('sSec').style.display='block';const sg=document.getElementById('sGrid');so.forEach(s=>{const a=document.createElement('a');a.href=s.href;a.target='_blank';a.className='soc';a.innerHTML='<span>'+s.icon+'</span>'+s.label;sg.appendChild(a);});}
+}
+function buildVC(){return['BEGIN:VCARD','VERSION:3.0','FN:'+D.nombre,D.cargo?'TITLE:'+D.cargo:'',D.telefono?'TEL;TYPE=VOICE:'+D.telefono:'',D.whatsapp?'TEL;TYPE=CELL:'+D.whatsapp:'',D.email?'EMAIL:'+D.email:'',D.website?'URL:'+D.website:'',D.direccion?'ADR;TYPE=WORK:;;'+D.direccion+';;;;':'',D.nota?'NOTE:'+D.nota:'','END:VCARD'].filter(Boolean).join('\r\n');}
+build();
+</script>
+</body></html>
