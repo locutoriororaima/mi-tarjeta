@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --sky:    #0ea5e9;
       --sky-d:  #0284c7;
@@ -20,7 +19,6 @@
       --muted:  #7a90a8;
       --radius: 16px;
     }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--night);
@@ -33,9 +31,7 @@
       padding: 24px 16px;
       background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(14,165,233,0.15) 0%, transparent 70%);
     }
-
     .wrap { width: 100%; max-width: 420px; }
-
     .header { text-align: center; margin-bottom: 32px; }
     .header .icon {
       width: 52px; height: 52px;
@@ -47,7 +43,6 @@
     .header .icon svg { width: 28px; height: 28px; fill: white; }
     .header h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
     .header p  { font-size: 13px; color: var(--muted); margin-top: 4px; }
-
     .search-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -55,9 +50,7 @@
       padding: 20px;
       margin-bottom: 16px;
     }
-
     .input-row { display: flex; gap: 10px; }
-
     input[type="text"] {
       flex: 1;
       background: var(--card2);
@@ -72,7 +65,6 @@
     }
     input[type="text"]::placeholder { color: var(--muted); }
     input[type="text"]:focus { border-color: var(--sky); }
-
     button {
       background: var(--sky);
       border: none;
@@ -89,16 +81,11 @@
     button:hover   { background: var(--sky-d); }
     button:active  { transform: scale(0.97); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
-
     .status {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 12px;
-      min-height: 18px;
-      text-align: center;
+      font-size: 13px; color: var(--muted);
+      margin-top: 12px; min-height: 18px; text-align: center;
     }
     .status.error { color: #f87171; }
-
     .result-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -108,12 +95,10 @@
       animation: fadeUp 0.35s ease;
     }
     .result-card.visible { display: block; }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .result-header {
       background: linear-gradient(135deg, var(--sky-d), #0369a1);
       padding: 20px 20px 16px;
@@ -122,12 +107,9 @@
     .result-header .meta  { font-size: 12px; opacity: 0.75; margin-top: 2px; font-family: 'DM Mono', monospace; }
     .result-header .temp-big { font-size: 52px; font-weight: 300; letter-spacing: -2px; line-height: 1; margin-top: 10px; }
     .result-header .desc  { font-size: 14px; opacity: 0.85; margin-top: 4px; text-transform: capitalize; }
-
     .result-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
       border-top: 1px solid var(--border);
     }
     .result-grid .cell { background: var(--card); padding: 14px 16px; }
@@ -136,7 +118,6 @@
       text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px;
     }
     .result-grid .cell .val { font-size: 17px; font-weight: 500; font-family: 'DM Mono', monospace; }
-
     .sheets-badge {
       display: flex; align-items: center; gap: 6px;
       font-size: 12px; color: var(--muted);
@@ -191,13 +172,17 @@
   </div>
 
 </div>
-
 <script>
+  const OWM_KEY    = "4256b3de394a56a86ee35e43af6f5c2e";
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYloNm61b2Ip1LsYiVteNOmD9n2EJjcMSAdYRtc7LkUiSV0xyp-Z8dbW59wXEdMe8/exec";
 
   document.getElementById("ciudad").addEventListener("keydown", function(e) {
     if (e.key === "Enter") consultar();
   });
+
+  function ahora() {
+    return new Date().toLocaleString("es-VE");
+  }
 
   function consultar() {
     const ciudad = document.getElementById("ciudad").value.trim();
@@ -215,46 +200,68 @@
     result.classList.remove("visible");
     badge.style.display = "none";
 
-    const cbName = "cb_" + Date.now();
-    const script = document.createElement("script");
-    script.src = SCRIPT_URL + "?ciudad=" + encodeURIComponent(ciudad) + "&callback=" + cbName;
+    const url = "https://api.openweathermap.org/data/2.5/weather"
+      + "?q="     + encodeURIComponent(ciudad)
+      + "&units=metric&lang=es"
+      + "&appid=" + OWM_KEY;
 
-    window[cbName] = function(d) {
-      delete window[cbName];
-      document.body.removeChild(script);
-      btn.disabled = false;
-      btn.textContent = "Consultar";
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.cod !== 200) throw new Error("Ciudad no encontrada: " + ciudad);
 
-      if (d.error) {
-        status.textContent = d.error;
-        status.className = "status error";
-        return;
-      }
+        var datos = {
+          ciudad      : d.name,
+          pais        : d.sys.country,
+          temperatura : d.main.temp,
+          sensacion   : d.main.feels_like,
+          clima       : d.weather[0].description,
+          temp_min    : d.main.temp_min,
+          temp_max    : d.main.temp_max,
+          humedad     : d.main.humidity,
+          viento      : d.wind.speed,
+          timestamp   : ahora()
+        };
 
-      document.getElementById("r-city").textContent  = d.ciudad + ", " + d.pais;
-      document.getElementById("r-meta").textContent  = d.timestamp;
-      document.getElementById("r-temp").textContent  = d.temperatura + "°C";
-      document.getElementById("r-desc").textContent  = d.clima;
-      document.getElementById("r-feels").textContent = d.sensacion + "°C";
-      document.getElementById("r-hum").textContent   = d.humedad + "%";
-      document.getElementById("r-mm").textContent    = d.temp_min + "° / " + d.temp_max + "°";
-      document.getElementById("r-wind").textContent  = d.viento + " km/h";
+        document.getElementById("r-city").textContent  = datos.ciudad + ", " + datos.pais;
+        document.getElementById("r-meta").textContent  = datos.timestamp;
+        document.getElementById("r-temp").textContent  = datos.temperatura + "°C";
+        document.getElementById("r-desc").textContent  = datos.clima;
+        document.getElementById("r-feels").textContent = datos.sensacion + "°C";
+        document.getElementById("r-hum").textContent   = datos.humedad + "%";
+        document.getElementById("r-mm").textContent    = datos.temp_min + "° / " + datos.temp_max + "°";
+        document.getElementById("r-wind").textContent  = datos.viento + " km/h";
 
-      result.classList.add("visible");
-      badge.style.display = "flex";
-      status.textContent = "";
-    };
+        result.classList.add("visible");
+        status.textContent = "Guardando en Sheets...";
 
-    script.onerror = function() {
-      delete window[cbName];
-      document.body.removeChild(script);
-      btn.disabled = false;
-      btn.textContent = "Consultar";
-      status.textContent = "Error de conexión. Intenta de nuevo.";
-      status.className = "status error";
-    };
-
-    document.body.appendChild(script);
+        return fetch(SCRIPT_URL + "?ciudad=" + encodeURIComponent(datos.ciudad)
+          + "&pais="        + encodeURIComponent(datos.pais)
+          + "&temperatura=" + datos.temperatura
+          + "&sensacion="   + datos.sensacion
+          + "&clima="       + encodeURIComponent(datos.clima)
+          + "&temp_min="    + datos.temp_min
+          + "&temp_max="    + datos.temp_max
+          + "&humedad="     + datos.humedad
+          + "&viento="      + datos.viento
+          + "&mode=save");
+      })
+      .then(function() {
+        badge.style.display = "flex";
+        status.textContent = "";
+      })
+      .catch(function(err) {
+        badge.style.display = "flex";
+        status.textContent = "";
+        if (!document.getElementById("result").classList.contains("visible")) {
+          status.textContent = err.message || "Error al consultar. Intenta de nuevo.";
+          status.className = "status error";
+        }
+      })
+      .finally(function() {
+        btn.disabled = false;
+        btn.textContent = "Consultar";
+      });
   }
 </script>
 </body>
