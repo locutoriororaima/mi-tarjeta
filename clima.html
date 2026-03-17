@@ -48,7 +48,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 20px;
-      margin-bottom: 16px;
     }
     .input-row { display: flex; gap: 10px; }
     input[type="text"] {
@@ -78,54 +77,14 @@
       transition: background 0.2s, transform 0.1s;
       white-space: nowrap;
     }
-    button:hover   { background: var(--sky-d); }
-    button:active  { transform: scale(0.97); }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status {
-      font-size: 13px; color: var(--muted);
-      margin-top: 12px; min-height: 18px; text-align: center;
-    }
-    .status.error { color: #f87171; }
-    .result-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: none;
-      animation: fadeUp 0.35s ease;
-    }
-    .result-card.visible { display: block; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .result-header {
-      background: linear-gradient(135deg, var(--sky-d), #0369a1);
-      padding: 20px 20px 16px;
-    }
-    .result-header .city  { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
-    .result-header .meta  { font-size: 12px; opacity: 0.75; margin-top: 2px; font-family: 'DM Mono', monospace; }
-    .result-header .temp-big { font-size: 52px; font-weight: 300; letter-spacing: -2px; line-height: 1; margin-top: 10px; }
-    .result-header .desc  { font-size: 14px; opacity: 0.85; margin-top: 4px; text-transform: capitalize; }
-    .result-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1px; background: var(--border);
-      border-top: 1px solid var(--border);
-    }
-    .result-grid .cell { background: var(--card); padding: 14px 16px; }
-    .result-grid .cell .lbl {
-      font-size: 11px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px;
-    }
-    .result-grid .cell .val { font-size: 17px; font-weight: 500; font-family: 'DM Mono', monospace; }
-    .sheets-badge {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--muted);
-      margin-top: 14px; justify-content: center;
-    }
-    .sheets-badge .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%; background: #34d399; flex-shrink: 0;
+    button:hover  { background: var(--sky-d); }
+    button:active { transform: scale(0.97); }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      text-align: center;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -146,122 +105,23 @@
     <div class="input-row">
       <input type="text" id="ciudad" placeholder="Ciudad (ej: Caracas, Madrid...)"
              autocomplete="off" autocorrect="off" spellcheck="false">
-      <button id="btn" onclick="consultar()">Consultar</button>
+      <button onclick="consultar()">Ver clima</button>
     </div>
-    <div class="status" id="status"></div>
-  </div>
-
-  <div class="result-card" id="result">
-    <div class="result-header">
-      <div class="city" id="r-city"></div>
-      <div class="meta" id="r-meta"></div>
-      <div class="temp-big" id="r-temp"></div>
-      <div class="desc" id="r-desc"></div>
-    </div>
-    <div class="result-grid">
-      <div class="cell"><div class="lbl">Sensación</div><div class="val" id="r-feels"></div></div>
-      <div class="cell"><div class="lbl">Humedad</div><div class="val" id="r-hum"></div></div>
-      <div class="cell"><div class="lbl">Mín / Máx</div><div class="val" id="r-mm"></div></div>
-      <div class="cell"><div class="lbl">Viento</div><div class="val" id="r-wind"></div></div>
-    </div>
-  </div>
-
-  <div class="sheets-badge" id="badge" style="display:none">
-    <span class="dot"></span>
-    <span>Datos guardados en Google Sheets</span>
+    <p class="hint">El resultado abre en una nueva pestaña y se guarda en Sheets automáticamente.</p>
   </div>
 
 </div>
 <script>
-  const OWM_KEY    = "4256b3de394a56a86ee35e43af6f5c2e";
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYloNm61b2Ip1LsYiVteNOmD9n2EJjcMSAdYRtc7LkUiSV0xyp-Z8dbW59wXEdMe8/exec";
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYloNm61b2Ip1LsYiVteNOmD9n2EJjcMSAdYRtc7LkUiSV0xyp-Z8dbW59wXEdMe8/exec";
 
   document.getElementById("ciudad").addEventListener("keydown", function(e) {
     if (e.key === "Enter") consultar();
   });
 
-  function ahora() {
-    return new Date().toLocaleString("es-VE");
-  }
-
   function consultar() {
-    const ciudad = document.getElementById("ciudad").value.trim();
+    var ciudad = document.getElementById("ciudad").value.trim();
     if (!ciudad) return;
-
-    const btn    = document.getElementById("btn");
-    const status = document.getElementById("status");
-    const result = document.getElementById("result");
-    const badge  = document.getElementById("badge");
-
-    btn.disabled = true;
-    btn.textContent = "Consultando...";
-    status.textContent = "Obteniendo datos del clima...";
-    status.className = "status";
-    result.classList.remove("visible");
-    badge.style.display = "none";
-
-    const url = "https://api.openweathermap.org/data/2.5/weather"
-      + "?q="     + encodeURIComponent(ciudad)
-      + "&units=metric&lang=es"
-      + "&appid=" + OWM_KEY;
-
-    fetch(url)
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (d.cod !== 200) throw new Error("Ciudad no encontrada: " + ciudad);
-
-        var datos = {
-          ciudad      : d.name,
-          pais        : d.sys.country,
-          temperatura : d.main.temp,
-          sensacion   : d.main.feels_like,
-          clima       : d.weather[0].description,
-          temp_min    : d.main.temp_min,
-          temp_max    : d.main.temp_max,
-          humedad     : d.main.humidity,
-          viento      : d.wind.speed,
-          timestamp   : ahora()
-        };
-
-        document.getElementById("r-city").textContent  = datos.ciudad + ", " + datos.pais;
-        document.getElementById("r-meta").textContent  = datos.timestamp;
-        document.getElementById("r-temp").textContent  = datos.temperatura + "°C";
-        document.getElementById("r-desc").textContent  = datos.clima;
-        document.getElementById("r-feels").textContent = datos.sensacion + "°C";
-        document.getElementById("r-hum").textContent   = datos.humedad + "%";
-        document.getElementById("r-mm").textContent    = datos.temp_min + "° / " + datos.temp_max + "°";
-        document.getElementById("r-wind").textContent  = datos.viento + " km/h";
-
-        result.classList.add("visible");
-        status.textContent = "Guardando en Sheets...";
-
-        return fetch(SCRIPT_URL + "?ciudad=" + encodeURIComponent(datos.ciudad)
-          + "&pais="        + encodeURIComponent(datos.pais)
-          + "&temperatura=" + datos.temperatura
-          + "&sensacion="   + datos.sensacion
-          + "&clima="       + encodeURIComponent(datos.clima)
-          + "&temp_min="    + datos.temp_min
-          + "&temp_max="    + datos.temp_max
-          + "&humedad="     + datos.humedad
-          + "&viento="      + datos.viento
-          + "&mode=save");
-      })
-      .then(function() {
-        badge.style.display = "flex";
-        status.textContent = "";
-      })
-      .catch(function(err) {
-        badge.style.display = "flex";
-        status.textContent = "";
-        if (!document.getElementById("result").classList.contains("visible")) {
-          status.textContent = err.message || "Error al consultar. Intenta de nuevo.";
-          status.className = "status error";
-        }
-      })
-      .finally(function() {
-        btn.disabled = false;
-        btn.textContent = "Consultar";
-      });
+    window.open(SCRIPT_URL + "?ciudad=" + encodeURIComponent(ciudad), "_blank");
   }
 </script>
 </body>
