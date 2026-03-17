@@ -31,44 +31,22 @@
       align-items: center;
       justify-content: center;
       padding: 24px 16px;
-      background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(14,165,233,0.15) 0%, transparent 70%);
+      background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(14,165,233,0.15) 0%, transparent 70%);
     }
 
-    .wrap {
-      width: 100%;
-      max-width: 420px;
-    }
+    .wrap { width: 100%; max-width: 420px; }
 
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
+    .header { text-align: center; margin-bottom: 32px; }
     .header .icon {
-      width: 52px;
-      height: 52px;
+      width: 52px; height: 52px;
       margin: 0 auto 14px;
       background: linear-gradient(135deg, var(--sky), var(--sky-d));
       border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-    .header .icon svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
-    }
-    .header h1 {
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.3px;
-    }
-    .header p {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
+    .header .icon svg { width: 28px; height: 28px; fill: white; }
+    .header h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+    .header p  { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
     .search-card {
       background: var(--card);
@@ -78,10 +56,7 @@
       margin-bottom: 16px;
     }
 
-    .input-row {
-      display: flex;
-      gap: 10px;
-    }
+    .input-row { display: flex; gap: 10px; }
 
     input[type="text"] {
       flex: 1;
@@ -111,8 +86,8 @@
       transition: background 0.2s, transform 0.1s;
       white-space: nowrap;
     }
-    button:hover  { background: var(--sky-d); }
-    button:active { transform: scale(0.97); }
+    button:hover   { background: var(--sky-d); }
+    button:active  { transform: scale(0.97); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .status {
@@ -143,30 +118,10 @@
       background: linear-gradient(135deg, var(--sky-d), #0369a1);
       padding: 20px 20px 16px;
     }
-    .result-header .city {
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.3px;
-    }
-    .result-header .meta {
-      font-size: 12px;
-      opacity: 0.75;
-      margin-top: 2px;
-      font-family: 'DM Mono', monospace;
-    }
-    .result-header .temp-big {
-      font-size: 52px;
-      font-weight: 300;
-      letter-spacing: -2px;
-      line-height: 1;
-      margin-top: 10px;
-    }
-    .result-header .desc {
-      font-size: 14px;
-      opacity: 0.85;
-      margin-top: 4px;
-      text-transform: capitalize;
-    }
+    .result-header .city  { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+    .result-header .meta  { font-size: 12px; opacity: 0.75; margin-top: 2px; font-family: 'DM Mono', monospace; }
+    .result-header .temp-big { font-size: 52px; font-weight: 300; letter-spacing: -2px; line-height: 1; margin-top: 10px; }
+    .result-header .desc  { font-size: 14px; opacity: 0.85; margin-top: 4px; text-transform: capitalize; }
 
     .result-grid {
       display: grid;
@@ -175,37 +130,21 @@
       background: var(--border);
       border-top: 1px solid var(--border);
     }
-    .result-grid .cell {
-      background: var(--card);
-      padding: 14px 16px;
-    }
+    .result-grid .cell { background: var(--card); padding: 14px 16px; }
     .result-grid .cell .lbl {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 4px;
+      font-size: 11px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px;
     }
-    .result-grid .cell .val {
-      font-size: 17px;
-      font-weight: 500;
-      font-family: 'DM Mono', monospace;
-    }
+    .result-grid .cell .val { font-size: 17px; font-weight: 500; font-family: 'DM Mono', monospace; }
 
     .sheets-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 14px;
-      justify-content: center;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted);
+      margin-top: 14px; justify-content: center;
     }
     .sheets-badge .dot {
       width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #34d399;
-      flex-shrink: 0;
+      border-radius: 50%; background: #34d399; flex-shrink: 0;
     }
   </style>
 </head>
@@ -215,7 +154,7 @@
   <div class="header">
     <div class="icon">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79zM1 10.5h3v2H1zM11 .55h2V3.5h-2zm8.04 2.495l1.408 1.407-1.79 1.79-1.407-1.408zm-1.8 15.115l1.79 1.8 1.41-1.41-1.8-1.79zM20 10.5h3v2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1 4h2v2.95h-2zm-7.45-.96l1.41 1.41 1.79-1.8-1.41-1.41z"/>
+        <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79zM1 10.5h3v2H1zM11 .55h2V3.5h-2zm8.04 2.495l1.408 1.407-1.79 1.79-1.407-1.408zm-1.8 15.115l1.79 1.8 1.41-1.41-1.8-1.79zM20 10.5h3v2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1 4h2v2.95h-2zm-7.45-.96l1.41 1.41 1.79-1.8-1.41-1.41z"/>
       </svg>
     </div>
     <h1>Consulta de Clima</h1>
@@ -276,34 +215,46 @@
     result.classList.remove("visible");
     badge.style.display = "none";
 
-    const url = SCRIPT_URL + "?ciudad=" + encodeURIComponent(ciudad);
+    const cbName = "cb_" + Date.now();
+    const script = document.createElement("script");
+    script.src = SCRIPT_URL + "?ciudad=" + encodeURIComponent(ciudad) + "&callback=" + cbName;
 
-    fetch(url)
-      .then(r => r.json())
-      .then(d => {
-        if (d.error) throw new Error(d.error);
+    window[cbName] = function(d) {
+      delete window[cbName];
+      document.body.removeChild(script);
+      btn.disabled = false;
+      btn.textContent = "Consultar";
 
-        document.getElementById("r-city").textContent  = d.ciudad + ", " + d.pais;
-        document.getElementById("r-meta").textContent  = d.timestamp;
-        document.getElementById("r-temp").textContent  = d.temperatura + "°C";
-        document.getElementById("r-desc").textContent  = d.clima;
-        document.getElementById("r-feels").textContent = d.sensacion + "°C";
-        document.getElementById("r-hum").textContent   = d.humedad + "%";
-        document.getElementById("r-mm").textContent    = d.temp_min + "° / " + d.temp_max + "°";
-        document.getElementById("r-wind").textContent  = d.viento + " km/h";
-
-        result.classList.add("visible");
-        badge.style.display = "flex";
-        status.textContent = "";
-      })
-      .catch(err => {
-        status.textContent = err.message || "Error al consultar. Intenta de nuevo.";
+      if (d.error) {
+        status.textContent = d.error;
         status.className = "status error";
-      })
-      .finally(() => {
-        btn.disabled = false;
-        btn.textContent = "Consultar";
-      });
+        return;
+      }
+
+      document.getElementById("r-city").textContent  = d.ciudad + ", " + d.pais;
+      document.getElementById("r-meta").textContent  = d.timestamp;
+      document.getElementById("r-temp").textContent  = d.temperatura + "°C";
+      document.getElementById("r-desc").textContent  = d.clima;
+      document.getElementById("r-feels").textContent = d.sensacion + "°C";
+      document.getElementById("r-hum").textContent   = d.humedad + "%";
+      document.getElementById("r-mm").textContent    = d.temp_min + "° / " + d.temp_max + "°";
+      document.getElementById("r-wind").textContent  = d.viento + " km/h";
+
+      result.classList.add("visible");
+      badge.style.display = "flex";
+      status.textContent = "";
+    };
+
+    script.onerror = function() {
+      delete window[cbName];
+      document.body.removeChild(script);
+      btn.disabled = false;
+      btn.textContent = "Consultar";
+      status.textContent = "Error de conexión. Intenta de nuevo.";
+      status.className = "status error";
+    };
+
+    document.body.appendChild(script);
   }
 </script>
 </body>
