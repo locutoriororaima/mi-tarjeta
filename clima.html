@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clima — Multiservicios Roraima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky:    #0ea5e9;
+      --sky-d:  #0284c7;
+      --night:  #0c1220;
+      --card:   #131e2e;
+      --card2:  #1a2840;
+      --border: rgba(255,255,255,0.07);
+      --text:   #e2eaf4;
+      --muted:  #7a90a8;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--night);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(14,165,233,0.15) 0%, transparent 70%);
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .header .icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 14px;
+      background: linear-gradient(135deg, var(--sky), var(--sky-d));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header .icon svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .header p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .search-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]::placeholder { color: var(--muted); }
+    input[type="text"]:focus { border-color: var(--sky); }
+
+    button {
+      background: var(--sky);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 18px;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    button:hover  { background: var(--sky-d); }
+    button:active { transform: scale(0.97); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .status {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 12px;
+      min-height: 18px;
+      text-align: center;
+    }
+    .status.error { color: #f87171; }
+
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: none;
+      animation: fadeUp 0.35s ease;
+    }
+    .result-card.visible { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      background: linear-gradient(135deg, var(--sky-d), #0369a1);
+      padding: 20px 20px 16px;
+    }
+    .result-header .city {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .result-header .meta {
+      font-size: 12px;
+      opacity: 0.75;
+      margin-top: 2px;
+      font-family: 'DM Mono', monospace;
+    }
+    .result-header .temp-big {
+      font-size: 52px;
+      font-weight: 300;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-top: 10px;
+    }
+    .result-header .desc {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-top: 4px;
+      text-transform: capitalize;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+    }
+    .result-grid .cell {
+      background: var(--card);
+      padding: 14px 16px;
+    }
+    .result-grid .cell .lbl {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+    }
+    .result-grid .cell .val {
+      font-size: 17px;
+      font-weight: 500;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .sheets-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+      justify-content: center;
+    }
+    .sheets-badge .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79zM1 10.5h3v2H1zM11 .55h2V3.5h-2zm8.04 2.495l1.408 1.407-1.79 1.79-1.407-1.408zm-1.8 15.115l1.79 1.8 1.41-1.41-1.8-1.79zM20 10.5h3v2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1 4h2v2.95h-2zm-7.45-.96l1.41 1.41 1.79-1.8-1.41-1.41z"/>
+      </svg>
+    </div>
+    <h1>Consulta de Clima</h1>
+    <p>Multiservicios Roraima</p>
+  </div>
+
+  <div class="search-card">
+    <div class="input-row">
+      <input type="text" id="ciudad" placeholder="Ciudad (ej: Caracas, Madrid...)"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+      <button id="btn" onclick="consultar()">Consultar</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="result-card" id="result">
+    <div class="result-header">
+      <div class="city" id="r-city"></div>
+      <div class="meta" id="r-meta"></div>
+      <div class="temp-big" id="r-temp"></div>
+      <div class="desc" id="r-desc"></div>
+    </div>
+    <div class="result-grid">
+      <div class="cell"><div class="lbl">Sensación</div><div class="val" id="r-feels"></div></div>
+      <div class="cell"><div class="lbl">Humedad</div><div class="val" id="r-hum"></div></div>
+      <div class="cell"><div class="lbl">Mín / Máx</div><div class="val" id="r-mm"></div></div>
+      <div class="cell"><div class="lbl">Viento</div><div class="val" id="r-wind"></div></div>
+    </div>
+  </div>
+
+  <div class="sheets-badge" id="badge" style="display:none">
+    <span class="dot"></span>
+    <span>Datos guardados en Google Sheets</span>
+  </div>
+
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYloNm61b2Ip1LsYiVteNOmD9n2EJjcMSAdYRtc7LkUiSV0xyp-Z8dbW59wXEdMe8/exec";
+
+  document.getElementById("ciudad").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") consultar();
+  });
+
+  function consultar() {
+    const ciudad = document.getElementById("ciudad").value.trim();
+    if (!ciudad) return;
+
+    const btn    = document.getElementById("btn");
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+    const badge  = document.getElementById("badge");
+
+    btn.disabled = true;
+    btn.textContent = "Consultando...";
+    status.textContent = "Obteniendo datos del clima...";
+    status.className = "status";
+    result.classList.remove("visible");
+    badge.style.display = "none";
+
+    const url = SCRIPT_URL + "?ciudad=" + encodeURIComponent(ciudad);
+
+    fetch(url)
+      .then(r => r.json())
+      .then(d => {
+        if (d.error) throw new Error(d.error);
+
+        document.getElementById("r-city").textContent  = d.ciudad + ", " + d.pais;
+        document.getElementById("r-meta").textContent  = d.timestamp;
+        document.getElementById("r-temp").textContent  = d.temperatura + "°C";
+        document.getElementById("r-desc").textContent  = d.clima;
+        document.getElementById("r-feels").textContent = d.sensacion + "°C";
+        document.getElementById("r-hum").textContent   = d.humedad + "%";
+        document.getElementById("r-mm").textContent    = d.temp_min + "° / " + d.temp_max + "°";
+        document.getElementById("r-wind").textContent  = d.viento + " km/h";
+
+        result.classList.add("visible");
+        badge.style.display = "flex";
+        status.textContent = "";
+      })
+      .catch(err => {
+        status.textContent = err.message || "Error al consultar. Intenta de nuevo.";
+        status.className = "status error";
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = "Consultar";
+      });
+  }
+</script>
+</body>
+</html>
