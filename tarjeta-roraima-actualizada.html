@@ -96,22 +96,6 @@
     background: linear-gradient(135deg, #1a56db, #0ea5e9);
   }
 
-  .avatar-initials {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1a56db, #0ea5e9);
-    border: 3px solid rgba(255,255,255,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem;
-    font-weight: 800;
-    color: white;
-    letter-spacing: -1px;
-  }
-
   .avatar-badge {
     position: absolute;
     bottom: 2px; right: 2px;
@@ -285,7 +269,7 @@
 
   .social-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
   }
 
@@ -346,7 +330,7 @@
   <div class="dots-pattern"></div>
   <div class="header-content">
     <div class="avatar-wrap">
-      <img src="https://raw.githubusercontent.com/locutoriororaima/mi-tarjeta/main/Foto-perfil.jpg?raw=true" alt="Roraima" class="avatar">
+      <img src="https://raw.githubusercontent.com/locutoriororaima/mi-tarjeta/main/Foto-perfil.jpg" alt="Roraima" class="avatar">
       <div class="avatar-badge"></div>
     </div>
     <div class="name">Multiservicios Roraima</div>
@@ -356,21 +340,17 @@
 
 <div class="card-float">
   <div class="contact-list" id="contactList">
-    <!-- Los items se generan aquí -->
-  </div>
+    </div>
 </div>
 
-<!-- CTA PRINCIPAL: WhatsApp con mensaje predefinido -->
-<a class="cta-btn" href="https://wa.me/34643901309?text=Hola%20Roraima,%20quiero%20consultar%20la%20tasa%20del%20d%C3%ADa%20o%20un%20paquete." target="_blank">
+<a class="cta-btn" id="mainCta" href="#" target="_blank">
   💬 Consultar Tasa / Paquete
 </a>
 
-<!-- Guardar contacto vCard -->
 <a class="save-btn" id="saveVcard" href="#" style="display:none">
   ＋ Guardar Contacto
 </a>
 
-<!-- Redes Sociales -->
 <div class="social-section" id="socialSection" style="display:none">
   <div class="social-title">Síguenos</div>
   <div class="social-grid" id="socialGrid"></div>
@@ -380,31 +360,35 @@
 
 <script>
 // ════════════════════════════════════════════════════════════
-// DATOS DE RORAIMA — Actualiza aquí cuando cambies tus datos
+// DATOS REALES DE RORAIMA — ACTUALIZADOS E INTEGRADOS
 // ════════════════════════════════════════════════════════════
 const DATA = {
-  nombre:    "Multiservicios Roraima",
-  tagline:   "Alimentación Latina · Envíos de Dinero · Punto de Paquetería",
-  telefono:  "+34 643 901 309",
-  whatsapp:  "34643901309",
-  email:     "locutorio.roraima@gmail.com",
-  website:   "https://locutoriororaima.wixsite.com/roraima",
-  direccion: "Zubiaga Kalea, 4, Mungia, Bizkaia",
-  instagram: "multiserviciosroraimamungia/",
-  facebook:  "locutorio.roraima",
+  nombre:     "Multiservicios Roraima",
+  tagline:    "Alimentación Latina · Envíos de Dinero · Punto de Paquetería",
+  telefono:   "+34 643 901 309",
+  whatsapp:   "34643901309",
+  email:      "locutorio.roraima@gmail.com",
+  website:    "https://locutoriororaima.wixsite.com/roraima",
+  cotizaciones: "https://locutoriororaima.wixsite.com/roraima/cotizaciones",
+  direccion:  "Zubiaga Kalea, 4, 48100 Mungia, Bizkaia",
+  instagram:  "multiserviciosroraimamungia",
+  facebook:   "locutorio.roraima",
   
-  // Mensaje WhatsApp personalizado para conversión
-  whatsappMsg: "Hola Roraima, quiero consultar la tasa del día."
+  // Mensaje gancho optimizado que despierta al bot automático
+  whatsappMsg: "Hola Roraima, quiero consultar la tasa del día o gestionar un paquete."
 };
 // ════════════════════════════════════════════════════════════
 
 function buildPage() {
-  // Lista de contacto con enlaces de acción
+  // Configurar el botón verde de acción principal (CTA) hacia la landing de cotizaciones
+  document.getElementById('mainCta').href = DATA.cotizaciones;
+
+  // Lista de contacto con enlaces de acción corregidos
   const contacts = [
     { 
       icon: '📞', cls: 'icon-phone', label: 'Teléfono', 
       value: DATA.telefono, 
-      href: `tel:${DATA.telefono}` 
+      href: `tel:${DATA.telefono.replace(/\s+/g, '')}` 
     },
     { 
       icon: '💬', cls: 'icon-wa', label: 'WhatsApp', 
@@ -423,8 +407,8 @@ function buildPage() {
     },
     { 
       icon: '📍', cls: 'icon-map', label: 'Dirección', 
-      value: DATA.direccion.split(',')[0], // Solo la calle para no saturar
-      href: `https://maps.google.com/?q=${encodeURIComponent('Multiservicios Roraima Mungia')}` 
+      value: "Zubiaga Kalea, 4", 
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Multiservicios Roraima Mungia')}` 
     }
   ];
 
@@ -445,7 +429,7 @@ function buildPage() {
     list.appendChild(a);
   });
 
-  // vCard para guardar contacto
+  // vCard para guardar contacto sin caracteres de escape dañados
   const vcard = buildVCard();
   const blob = new Blob([vcard], { type: 'text/vcard' });
   const url = URL.createObjectURL(blob);
@@ -454,10 +438,10 @@ function buildPage() {
   btn.download = `Roraima-Mungia.vcf`;
   btn.style.display = 'block';
 
-  // Redes sociales
+  // Redes sociales vinculadas de forma nativa
   const socials = [
-    { icon: '📸', label: 'Instagram', href: `https://instagram.com/${DATA.instagram.replace('@','')}` },
-    { icon: '👤', label: 'Facebook',  href: `https://facebook.com/${DATA.facebook}` }
+    { icon: '📸', label: 'Instagram', href: `https://www.instagram.com/${DATA.instagram}` },
+    { icon: '👤', label: 'Facebook',  href: `https://www.facebook.com/${DATA.facebook}` }
   ];
 
   document.getElementById('socialSection').style.display = 'block';
@@ -488,7 +472,7 @@ function buildVCard() {
   return lines.join('\r\n');
 }
 
-// Ejecutar al cargar
+// Ejecutar la renderización de la página
 buildPage();
 </script>
 </body>
