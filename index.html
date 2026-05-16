@@ -391,7 +391,8 @@ function buildPage() {
       href: `tel:${DATA.telefono.replace(/\s+/g, '')}` 
     },
     { 
-      icon: '💬', cls: 'icon-wa', label: 'WhatsApp', 
+      icon: `<img src="whatsapp.png" alt="" style="width:24px; height:24px; vertical-align:middle; display:inline-block;">`, cls: 'icon-wa',  
+      label: 'WhatsApp',
       value: "Haz tu consulta",
       href: `https://wa.me/${DATA.whatsapp}?text=${encodeURIComponent(DATA.whatsappMsg)}` 
     },
