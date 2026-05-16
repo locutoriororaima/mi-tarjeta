@@ -438,11 +438,19 @@ function buildPage() {
   btn.download = `Roraima-Mungia.vcf`;
   btn.style.display = 'block';
 
-  // Redes sociales vinculadas de forma nativa
-  const socials = [
-    { icon:'<img src="instagram.png", label: 'Instagram', href: `https://www.instagram.com/${DATA.instagram}` }
-    { icon: '🤗', label: 'Facebook',  href: `https://www.facebook.com/${DATA.facebook}` }
-  ];
+// Redes sociales vinculadas de forma nativa
+const socials = [
+  { 
+    icon: `<img src="instagram.png" alt="" style="width:24px; height:24px; vertical-align:middle; display:inline-block;">`, 
+    label: 'Instagram', 
+    href: `https://instagram.com{DATA.instagram}` 
+  },
+  { 
+    icon: `<img src="facebook.png" alt="" style="width:24px; height:24px; vertical-align:middle; display:inline-block;">`, 
+    label: 'Facebook',  
+    href: `https://facebook.com{DATA.facebook}` 
+  }
+];
 
   document.getElementById('socialSection').style.display = 'block';
   const grid = document.getElementById('socialGrid');
