@@ -440,8 +440,12 @@ function buildPage() {
 
   // Redes sociales vinculadas de forma nativa
   const socials = [
-    { icon: '📸', label: 'Instagram', href: `https://www.instagram.com/${DATA.instagram}` },
-    { icon: '🤗', label: 'Facebook',  href: `https://www.facebook.com/${DATA.facebook}` }
+    { icon: '<img src="https://github.com/locutoriororaima/mi-tarjeta/blob/main/instagram.png" alt="Instagram" style="width:24px; height:24px; vertical-align:middle;">', 
+    label: 'Instagram', 
+    href: `https://instagram.com{DATA.instagram}` },
+    { icon: '<img src="https://github.com/locutoriororaima/mi-tarjeta/blob/main/facebook.png" alt="Facebook" style="width:24px; height:24px; vertical-align:middle;">', 
+    label: 'Facebook',  
+    href: `https://facebook.com{DATA.facebook}` }
   ];
 
   document.getElementById('socialSection').style.display = 'block';
