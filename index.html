@@ -397,7 +397,8 @@ function buildPage() {
       href: `https://wa.me/${DATA.whatsapp}?text=${encodeURIComponent(DATA.whatsappMsg)}` 
     },
     { 
-      icon: '✉️', cls: 'icon-email', label: 'Email', 
+      icon: `<img src="gmail.png" alt="" style="width:24px; height:24px; vertical-align:middle; display:inline-block;">`, cls: 'icon-email', 
+      label: 'Email', 
       value: DATA.email, 
       href: `mailto:${DATA.email}` 
     },
