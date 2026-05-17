@@ -20,7 +20,6 @@
     --white: #ffffff;
     --accent: #0ea5e9;
     --success: #22c55e;
-    --weather: #0ea5e9;
   }
 
   html, body {
@@ -176,7 +175,6 @@
   .icon-map    { background: #fce7f3; }
   .icon-ig     { background: #fce7f3; }
   .icon-fb     { background: #dbeafe; }
-  .icon-weather { background: #e0f2fe; }
 
   .item-info { flex: 1; min-width: 0; }
 
@@ -256,6 +254,8 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 24px rgba(14,165,233,0.4);
   }
+
+  .weather-btn:active { transform: translateY(0); }
 
   /* SAVE VCARD */
   .save-btn {
@@ -407,7 +407,6 @@ const DATA = {
   direccion:  "Zubiaga Kalea, 4, 48100 Mungia, Bizkaia",
   instagram:  "multiserviciosroraimamungia",
   facebook:   "locutorio.roraima",
-  clima:      "https://locutoriororaima.github.io/mi-tarjeta/clima.html",
   
   // Mensaje gancho optimizado que despierta al bot automático
   whatsappMsg: "Hola Roraima, quiero consultar el precio del Euro o gestionar un paquete."
@@ -441,11 +440,6 @@ function buildPage() {
       icon: '🌐', cls: 'icon-web', label: 'Sitio Web', 
       value: "Tienda OnLine",
       href: DATA.website 
-    },
-    { 
-      icon: '🌤️', cls: 'icon-weather', label: 'Clima en Mungia', 
-      value: 'Pronóstico Actualizado',
-      href: DATA.clima 
     },
     { 
       icon: '📍', cls: 'icon-map', label: 'Dirección', 
