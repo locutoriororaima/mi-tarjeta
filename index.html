@@ -344,7 +344,7 @@
 </div>
 
 <a class="cta-btn" id="mainCta" href="#" target="_blank">
-  💶 Precio del Euro
+  💶 Consultar Divisas
 </a>
 
 <a class="save-btn" id="saveVcard" href="#" style="display:none">
@@ -373,7 +373,6 @@ const DATA = {
   direccion:  "Zubiaga Kalea, 4, 48100 Mungia, Bizkaia",
   instagram:  "multiserviciosroraimamungia",
   facebook:   "locutorio.roraima",
-  clima:      "https://locutoriororaima.github.io/mi-tarjeta/clima.html",
   
   // Mensaje gancho optimizado que despierta al bot automático
   whatsappMsg: "Hola Roraima, quiero consultar el precio del Euro o gestionar un paquete."
@@ -413,11 +412,6 @@ function buildPage() {
       value: "Zubiaga Kalea, 4 Mungia", 
       href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Multiservicios Roraima Mungia')}` 
     }
-    { 
-       icon: '🌦️', cls: 'icon-map', label: 'Clima', 
-       value: "Consulta el clima", 
-       href: DATA.clima 
-     }
   ];
 
   const list = document.getElementById('contactList');
